@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Produtos | Backstage
+  </title>
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/style.css"
+  >
+
+</head>
+
+
+<body>
+
+  <div class="topbar">
+    ✨ Frete grátis acima de R$ 199
+  </div>
+
+
+  <header class="header">
+
+    <a
+      class="brand"
+      href="index.html"
+    >
+      <span>Backstage</span>
+      <small>MODA FEMININA</small>
+    </a>
+
+
+    <nav
+      class="nav"
+      aria-label="Navegação principal"
+    >
+
+      <a
+        href="index.html"
+        data-nav="novidades"
+      >
+        Novidades
+      </a>
+
+      <a
+        href="produtos.html?promocao=true"
+        data-nav="promocoes"
+      >
+        Promoções
+      </a>
+
+      <a
+        href="produtos.html?categoria=Infantis"
+        data-nav="infantis"
+      >
+        Infantis
+      </a>
+
+      <a
+        href="produtos.html?categoria=Blusas"
+        data-nav="blusas"
+      >
+        Camisas
+      </a>
+
+      <a
+        href="produtos.html?categoria=Calças"
+        data-nav="calcas"
+      >
+        Calças
+      </a>
+
+      <a
+        href="produtos.html?categoria=Vestidos"
+        data-nav="vestidos"
+      >
+        Vestidos
+      </a>
+
+      <a
+        href="produtos.html?categoria=Shorts"
+        data-nav="shorts"
+      >
+        Shorts
+      </a>
+
+    </nav>
+
+
+    <div class="header-actions">
+
+      <a
+        href="produtos.html"
+        class="icon-btn"
+        aria-label="Buscar"
+      >
+        ⌕
+      </a>
+
+      <a
+        href="login.html"
+        class="icon-btn"
+        aria-label="Minha conta"
+      >
+        ♙
+      </a>
+
+      <a
+        href="wishlist.html"
+        class="icon-btn"
+        aria-label="Lista de desejos"
+      >
+        ♡
+      </a>
+
+      <a
+        href="carrinho.html"
+        class="icon-btn cart"
+        aria-label="Carrinho"
+      >
+        🛒
+        <b id="cartCount">0</b>
+      </a>
+
+    </div>
+
+  </header>
+
+
+  <main class="products-page">
+
+    <div class="page-title">
+
+      <p class="eyebrow">
+        BACKSTAGE
+      </p>
+
+      <h1>
+        Produtos
+      </h1>
+
+      <p>
+        Roupas e acessórios para todos os gostos.
+      </p>
+
+    </div>
+
+
+    <div class="catalog-layout">
+
+
+      <!-- FILTROS -->
+
+      <aside class="filters">
+
+        <div class="filter-mobile-title">
+
+          <strong>
+            Filtros
+          </strong>
+
+          <button id="closeFilters">
+            ×
+          </button>
+
+        </div>
+
+
+        <div class="filter-group">
+
+          <h3>
+            Categorias
+          </h3>
+
+          <label>
+            <input
+              type="radio"
+              name="category"
+              value="Todos"
+              checked
+            >
+            Todos
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="category"
+              value="Vestidos"
+            >
+            Vestidos
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="category"
+              value="Blusas"
+            >
+            Blusas
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="category"
+              value="Calças"
+            >
+            Calças
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="category"
+              value="Shorts"
+            >
+            Shorts
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="category"
+              value="Saias"
+            >
+            Saias
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="category"
+              value="Conjuntos"
+            >
+            Conjuntos
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="category"
+              value="Casacos"
+            >
+            Casacos
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="category"
+              value="Biquínis"
+            >
+            Biquínis
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="category"
+              value="Praia"
+            >
+            Praia
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="category"
+              value="Infantis"
+            >
+            Infantis
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="category"
+              value="Acessórios"
+            >
+            Acessórios
+          </label>
+
+        </div>
+
+
+        <div class="filter-group">
+
+          <h3>
+            Tamanho
+          </h3>
+
+          <div class="chips">
+
+            <label>
+              <input
+                type="checkbox"
+                name="size"
+                value="PP"
+              >
+              <span>PP</span>
+            </label>
+
+            <label>
+              <input
+                type="checkbox"
+                name="size"
+                value="P"
+              >
+              <span>P</span>
+            </label>
+
+            <label>
+              <input
+                type="checkbox"
+                name="size"
+                value="M"
+              >
+              <span>M</span>
+            </label>
+
+            <label>
+              <input
+                type="checkbox"
+                name="size"
+                value="G"
+              >
+              <span>G</span>
+            </label>
+
+            <label>
+              <input
+                type="checkbox"
+                name="size"
+                value="GG"
+              >
+              <span>GG</span>
+            </label>
+
+          </div>
+
+        </div>
+
+
+        <div class="filter-group">
+
+          <h3>
+            Cor
+          </h3>
+
+          <div class="color-list">
+
+            <label>
+              <input
+                type="checkbox"
+                name="color"
+                value="Preto"
+              >
+              <i class="color-dot black"></i>
+              Preto
+            </label>
+
+            <label>
+              <input
+                type="checkbox"
+                name="color"
+                value="Branco"
+              >
+              <i class="color-dot white"></i>
+              Branco
+            </label>
+
+            <label>
+              <input
+                type="checkbox"
+                name="color"
+                value="Vinho"
+              >
+              <i class="color-dot wine"></i>
+              Vinho
+            </label>
+
+            <label>
+              <input
+                type="checkbox"
+                name="color"
+                value="Rosa"
+              >
+              <i class="color-dot pink"></i>
+              Rosa
+            </label>
+
+            <label>
+              <input
+                type="checkbox"
+                name="color"
+                value="Bege"
+              >
+              <i class="color-dot beige"></i>
+              Bege
+            </label>
+
+            <label>
+              <input
+                type="checkbox"
+                name="color"
+                value="Azul"
+              >
+              <i class="color-dot blue"></i>
+              Azul
+            </label>
+
+          </div>
+
+        </div>
+
+
+        <div class="filter-group">
+
+          <h3>
+            Faixa de preço
+          </h3>
+
+          <div class="price-inputs">
+
+            <input
+              id="minPrice"
+              type="number"
+              min="0"
+              placeholder="R$ mín."
+            >
+
+            <span>—</span>
+
+            <input
+              id="maxPrice"
+              type="number"
+              min="0"
+              placeholder="R$ máx."
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="filter-group">
+
+          <h3>
+            Ocasião
+          </h3>
+
+          <select id="occasion">
+
+            <option value="Todas">
+              Todas
+            </option>
+
+            <option value="Casual">
+              Casual
+            </option>
+
+            <option value="Festa">
+              Festa
+            </option>
+
+            <option value="Trabalho">
+              Trabalho
+            </option>
+
+            <option value="Praia">
+              Praia
+            </option>
+
+            <option value="Romântico">
+              Romântico
+            </option>
+
+            <option value="Esportivo">
+              Esportivo
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <button
+          class="btn btn-dark full"
+          id="clearFilters"
+        >
+          Limpar filtros
+        </button>
+
+      </aside>
+
+
+      <!-- PRODUTOS -->
+
+      <section class="catalog">
+
+        <div class="catalog-toolbar">
+
+          <div class="search-box compact">
+
+            <input
+              id="productSearch"
+              type="search"
+              placeholder="Pesquisar produtos..."
+            >
+
+            <button id="productSearchBtn">
+              ⌕
+            </button>
+
+          </div>
+
+
+          <button
+            class="mobile-filter-btn"
+            id="openFilters"
+          >
+            ☰ Filtros
+          </button>
+
+
+          <select
+            id="sortProducts"
+            aria-label="Ordenar produtos"
+          >
+
+            <option value="default">
+              Mais relevantes
+            </option>
+
+            <option value="priceAsc">
+              Menor preço
+            </option>
+
+            <option value="priceDesc">
+              Maior preço
+            </option>
+
+            <option value="name">
+              Nome A–Z
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <p
+          id="resultCount"
+          class="result-count"
+        ></p>
+
+
+        <div
+          class="product-grid"
+          id="productGrid"
+        ></div>
+
+
+        <div
+          class="empty-state"
+          id="emptyState"
+          hidden
+        >
+
+          <span>
+            ♡
+          </span>
+
+          <h2>
+            Nenhum produto encontrado
+          </h2>
+
+          <p>
+            Tente mudar os filtros ou sua busca.
+          </p>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <footer id="footer"></footer>
+
+
+  <!-- ACESSIBILIDADE -->
+
+  <button
+    class="accessibility-trigger"
+    id="accessibilityTrigger"
+    aria-label="Abrir opções de acessibilidade"
+  >
+    ♿
+  </button>
+
+
+  <aside
+    class="accessibility-panel"
+    id="accessibilityPanel"
+  >
+
+    <button id="closeAccessibility">
+      ×
+    </button>
+
+    <h3>
+      Acessibilidade
+    </h3>
+
+    <button id="increaseFont">
+      A+ Aumentar texto
+    </button>
+
+    <button id="decreaseFont">
+      A− Diminuir texto
+    </button>
+
+    <button id="contrast">
+      ◐ Alto contraste
+    </button>
+
+    <button id="readPage">
+      🔊 Ler página em áudio
+    </button>
+
+    <button id="stopReading">
+      ⏹ Parar leitura
+    </button>
+
+  </aside>
+
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

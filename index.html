@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Backstage Moda Feminina - loja online de roupas femininas.">
+  <title>Backstage | Moda Feminina</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <div class="topbar">
+    ✨ Nova coleção Primavera — até <strong>30% OFF</strong> em peças selecionadas
+  </div>
+
+  <header class="header">
+
+    <a class="brand" href="index.html" aria-label="Backstage Moda Feminina - página inicial">
+      <span>Backstage</span>
+      <small>MODA FEMININA</small>
+    </a>
+
+    <nav class="nav" aria-label="Navegação principal">
+
+      <a href="index.html" data-nav="novidades">
+        Novidades
+      </a>
+
+      <a href="produtos.html?promocao=true" data-nav="promocoes">
+        Promoções
+      </a>
+
+      <a href="produtos.html?categoria=Infantis" data-nav="infantis">
+        Infantis
+      </a>
+
+      <a href="produtos.html?categoria=Blusas" data-nav="blusas">
+        Camisas
+      </a>
+
+      <a href="produtos.html?categoria=Calças" data-nav="calcas">
+        Calças
+      </a>
+
+      <a href="produtos.html?categoria=Vestidos" data-nav="vestidos">
+        Vestidos
+      </a>
+
+      <a href="produtos.html?categoria=Shorts" data-nav="shorts">
+        Shorts
+      </a>
+
+    </nav>
+
+    <div class="header-actions">
+
+      <a
+        href="produtos.html"
+        class="icon-btn"
+        title="Buscar"
+        aria-label="Buscar"
+      >
+        ⌕
+      </a>
+
+      <a
+        href="login.html"
+        class="icon-btn"
+        title="Minha conta"
+        aria-label="Minha conta"
+      >
+        ♙
+      </a>
+
+      <a
+        href="wishlist.html"
+        class="icon-btn heart"
+        title="Lista de desejos"
+        aria-label="Lista de desejos"
+      >
+        ♡
+      </a>
+
+      <a
+        href="carrinho.html"
+        class="icon-btn cart"
+        title="Carrinho"
+        aria-label="Carrinho"
+      >
+        🛒
+        <b id="cartCount">0</b>
+      </a>
+
+    </div>
+
+  </header>
+
+
+  <main>
+
+    <!-- HERO / BANNER PRINCIPAL -->
+
+    <section
+      class="hero"
+      id="heroSlider"
+      aria-label="Destaques da coleção"
+    >
+
+      <button
+        class="hero-arrow hero-prev"
+        id="heroPrev"
+        aria-label="Imagem anterior"
+      >
+        ‹
+      </button>
+
+      <div class="hero-overlay">
+
+        <p
+          class="eyebrow"
+          id="heroEyebrow"
+        >
+          NOVA COLEÇÃO
+        </p>
+
+        <h1 id="heroTitle">
+          Seu estilo.<br>
+          <em>Sua história.</em>
+        </h1>
+
+        <p id="heroText">
+          Peças femininas para todos os momentos, com personalidade e conforto.
+        </p>
+
+        <a
+          class="btn btn-dark"
+          id="heroLink"
+          href="produtos.html"
+        >
+          Comprar agora →
+        </a>
+
+      </div>
+
+      <button
+        class="hero-arrow hero-next"
+        id="heroNext"
+        aria-label="Próxima imagem"
+      >
+        ›
+      </button>
+
+      <div
+        class="hero-dots"
+        id="heroDots"
+      >
+
+        <button
+          class="dot active"
+          data-slide="0"
+          aria-label="Ir para imagem 1"
+        ></button>
+
+        <button
+          class="dot"
+          data-slide="1"
+          aria-label="Ir para imagem 2"
+        ></button>
+
+        <button
+          class="dot"
+          data-slide="2"
+          aria-label="Ir para imagem 3"
+        ></button>
+
+      </div>
+
+    </section>
+
+
+    <!-- BUSCA -->
+
+    <section class="search-section">
+
+      <div class="search-box">
+
+        <input
+          id="homeSearch"
+          type="search"
+          placeholder="Pesquise por vestido, blusa, ocasião..."
+          aria-label="Pesquisar produtos"
+        >
+
+        <button
+          id="homeSearchBtn"
+          aria-label="Pesquisar"
+        >
+          ⌕
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- MAIS VENDIDOS -->
+
+    <section class="section">
+
+      <div class="section-heading">
+
+        <div>
+
+          <p class="eyebrow">
+            ESCOLHIDOS PARA VOCÊ
+          </p>
+
+          <h2>
+            Mais vendidos
+          </h2>
+
+        </div>
+
+        <a href="produtos.html">
+          Ver todos →
+        </a>
+
+      </div>
+
+      <div
+        class="product-grid product-grid-6"
+        id="featuredProducts"
+      ></div>
+
+    </section>
+
+
+    <!-- LOOKS -->
+
+    <section class="look-banner">
+
+      <div>
+
+        <p class="eyebrow">
+          INSPIRE-SE
+        </p>
+
+        <h2>
+          Looks que falam<br>
+          por você.
+        </h2>
+
+        <p>
+          Combine suas peças favoritas e crie uma produção só sua.
+        </p>
+
+        <a
+          class="btn btn-outline"
+          href="produtos.html"
+        >
+          Explorar looks
+        </a>
+
+      </div>
+
+      <div class="look-image"></div>
+
+    </section>
+
+
+    <!-- CATEGORIAS -->
+
+    <section class="section categories">
+
+      <div class="section-heading">
+
+        <div>
+
+          <p class="eyebrow">
+            ENCONTRE SEU ESTILO
+          </p>
+
+          <h2>
+            Compre por categoria
+          </h2>
+
+        </div>
+
+      </div>
+
+      <div class="category-grid">
+
+        <a
+          href="produtos.html?categoria=Vestidos"
+          class="category-card cat-dress"
+        >
+          <span>Vestidos</span>
+        </a>
+
+        <a
+          href="produtos.html?categoria=Blusas"
+          class="category-card cat-blouse"
+        >
+          <span>Blusas</span>
+        </a>
+
+        <a
+          href="produtos.html?categoria=Calças"
+          class="category-card cat-pants"
+        >
+          <span>Calças</span>
+        </a>
+
+        <a
+          href="produtos.html?categoria=Shorts"
+          class="category-card cat-shorts"
+        >
+          <span>Shorts</span>
+        </a>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- RODAPÉ -->
+
+  <footer id="footer">
+
+    <div class="footer-main">
+
+      <div>
+
+        <a
+          class="brand footer-brand"
+          href="index.html"
+        >
+          <span>Backstage</span>
+          <small>MODA FEMININA</small>
+        </a>
+
+        <p>
+          Moda para você ser quem quiser.
+        </p>
+
+      </div>
+
+
+      <div>
+
+        <h3>
+          Atendimento
+        </h3>
+
+        <a href="#">
+          Fale conosco
+        </a>
+
+        <a href="#">
+          Trocas e devoluções
+        </a>
+
+        <a href="#">
+          Prazo de entrega
+        </a>
+
+      </div>
+
+
+      <div>
+
+        <h3>
+          Institucional
+        </h3>
+
+        <a href="#">
+          Sobre a Backstage
+        </a>
+
+        <a href="#">
+          Privacidade
+        </a>
+
+        <a href="#">
+          Termos de uso
+        </a>
+
+      </div>
+
+
+      <div>
+
+        <h3>
+          Siga a gente
+        </h3>
+
+        <p>
+          @backstagemodafeminina
+        </p>
+
+        <div class="socials">
+
+          <a
+            href="https://www.instagram.com/backstagemodafeminina"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+          >
+            ◎
+          </a>
+
+          <a
+            href="https://wa.me/5500000000000"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp"
+          >
+            ◉
+          </a>
+
+          <a
+            href="https://www.tiktok.com/@backstagemodafeminina"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="TikTok"
+          >
+            ♪
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+      © 2026 BackStage — Todos os direitos reservados.
+    </div>
+
+  </footer>
+
+
+  <!-- ACESSIBILIDADE -->
+
+  <button
+    class="accessibility-trigger"
+    id="accessibilityTrigger"
+    aria-label="Abrir opções de acessibilidade"
+  >
+    ♿
+  </button>
+
+  <aside
+    class="accessibility-panel"
+    id="accessibilityPanel"
+    aria-label="Acessibilidade"
+  >
+
+    <button id="closeAccessibility">
+      ×
+    </button>
+
+    <h3>
+      Acessibilidade
+    </h3>
+
+    <button id="increaseFont">
+      A+ Aumentar texto
+    </button>
+
+    <button id="decreaseFont">
+      A− Diminuir texto
+    </button>
+
+    <button id="contrast">
+      ◐ Alto contraste
+    </button>
+
+    <button id="readPage">
+      🔊 Ler página em áudio
+    </button>
+
+    <button id="stopReading">
+      ⏹ Parar leitura
+    </button>
+
+  </aside>
+
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Produto | Backstage
+  </title>
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/style.css"
+  >
+
+</head>
+
+
+<body>
+
+  <div class="topbar">
+    ✨ Primeira compra? Use <strong>BACKSTAGE10</strong> e ganhe 10% OFF
+  </div>
+
+
+  <header class="header">
+
+    <a
+      class="brand"
+      href="index.html"
+    >
+      <span>Backstage</span>
+      <small>MODA FEMININA</small>
+    </a>
+
+
+    <nav
+      class="nav"
+      aria-label="Navegação principal"
+    >
+
+      <a
+        href="index.html"
+        data-nav="novidades"
+      >
+        Novidades
+      </a>
+
+      <a
+        href="produtos.html?promocao=true"
+        data-nav="promocoes"
+      >
+        Promoções
+      </a>
+
+      <a
+        href="produtos.html?categoria=Infantis"
+        data-nav="infantis"
+      >
+        Infantis
+      </a>
+
+      <a
+        href="produtos.html?categoria=Blusas"
+        data-nav="blusas"
+      >
+        Camisas
+      </a>
+
+      <a
+        href="produtos.html?categoria=Calças"
+        data-nav="calcas"
+      >
+        Calças
+      </a>
+
+      <a
+        href="produtos.html?categoria=Vestidos"
+        data-nav="vestidos"
+      >
+        Vestidos
+      </a>
+
+      <a
+        href="produtos.html?categoria=Shorts"
+        data-nav="shorts"
+      >
+        Shorts
+      </a>
+
+    </nav>
+
+
+    <div class="header-actions">
+
+      <a
+        href="produtos.html"
+        class="icon-btn"
+        aria-label="Buscar"
+      >
+        ⌕
+      </a>
+
+      <a
+        href="login.html"
+        class="icon-btn"
+        aria-label="Minha conta"
+      >
+        ♙
+      </a>
+
+      <a
+        href="wishlist.html"
+        class="icon-btn"
+        aria-label="Lista de desejos"
+      >
+        ♡
+      </a>
+
+      <a
+        href="carrinho.html"
+        class="icon-btn cart"
+        aria-label="Carrinho"
+      >
+        🛒
+        <b id="cartCount">0</b>
+      </a>
+
+    </div>
+
+  </header>
+
+
+  <main class="product-detail-page">
+
+    <div class="breadcrumb">
+
+      <a href="produtos.html">
+        Produtos
+      </a>
+
+      /
+
+      <span id="breadcrumbName">
+        Produto
+      </span>
+
+    </div>
+
+
+    <section
+      class="product-detail"
+      id="productDetail"
+    ></section>
+
+
+    <section class="detail-extra">
+
+      <div class="detail-tabs">
+
+        <button
+          class="tab active"
+          data-tab="description"
+        >
+          Descrição
+        </button>
+
+        <button
+          class="tab"
+          data-tab="measurements"
+        >
+          Tabela de medidas
+        </button>
+
+        <button
+          class="tab"
+          data-tab="composition"
+        >
+          Composição
+        </button>
+
+      </div>
+
+
+      <div
+        class="tab-content"
+        id="description"
+      >
+
+        <h2>
+          Detalhes da peça
+        </h2>
+
+        <p id="productDescription"></p>
+
+        <div class="feature-list">
+
+          <span>
+            ✓ Modelagem confortável
+          </span>
+
+          <span>
+            ✓ Acabamento de qualidade
+          </span>
+
+          <span>
+            ✓ Envio para todo o Brasil
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="tab-content"
+        id="measurements"
+        hidden
+      >
+
+        <h2>
+          Tabela de medidas
+        </h2>
+
+        <div class="table-wrap">
+
+          <table>
+
+            <thead>
+
+              <tr>
+                <th>Tamanho</th>
+                <th>Busto</th>
+                <th>Cintura</th>
+                <th>Quadril</th>
+                <th>Comprimento</th>
+              </tr>
+
+            </thead>
+
+
+            <tbody>
+
+              <tr>
+                <td>PP</td>
+                <td>82–86 cm</td>
+                <td>62–66 cm</td>
+                <td>88–92 cm</td>
+                <td>—</td>
+              </tr>
+
+              <tr>
+                <td>P</td>
+                <td>86–90 cm</td>
+                <td>66–70 cm</td>
+                <td>92–96 cm</td>
+                <td>—</td>
+              </tr>
+
+              <tr>
+                <td>M</td>
+                <td>90–94 cm</td>
+                <td>70–74 cm</td>
+                <td>96–100 cm</td>
+                <td>—</td>
+              </tr>
+
+              <tr>
+                <td>G</td>
+                <td>94–100 cm</td>
+                <td>74–80 cm</td>
+                <td>100–106 cm</td>
+                <td>—</td>
+              </tr>
+
+              <tr>
+                <td>GG</td>
+                <td>100–106 cm</td>
+                <td>80–86 cm</td>
+                <td>106–112 cm</td>
+                <td>—</td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="tab-content"
+        id="composition"
+        hidden
+      >
+
+        <h2>
+          Composição
+        </h2>
+
+        <p id="productComposition"></p>
+
+        <p class="muted">
+          Para conservar sua peça, siga as orientações de lavagem presentes na etiqueta.
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <section class="section related-section">
+
+      <div class="section-heading">
+
+        <div>
+
+          <p class="eyebrow">
+            VOCÊ TAMBÉM PODE GOSTAR
+          </p>
+
+          <h2>
+            Produtos relacionados
+          </h2>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="product-grid product-grid-4"
+        id="relatedProducts"
+      ></div>
+
+    </section>
+
+
+    <section class="complete-look">
+
+      <div>
+
+        <p class="eyebrow">
+          INSPIRE-SE
+        </p>
+
+        <h2>
+          Complete o look
+        </h2>
+
+        <p>
+          Monte uma produção especial combinando peças da Backstage.
+        </p>
+
+        <a
+          class="btn btn-dark"
+          href="produtos.html"
+        >
+          Ver mais peças
+        </a>
+
+      </div>
+
+      <div class="look-collage"></div>
+
+    </section>
+
+  </main>
+
+
+  <footer id="footer"></footer>
+
+
+  <!-- ACESSIBILIDADE -->
+
+  <button
+    class="accessibility-trigger"
+    id="accessibilityTrigger"
+    aria-label="Abrir opções de acessibilidade"
+  >
+    ♿
+  </button>
+
+
+  <aside
+    class="accessibility-panel"
+    id="accessibilityPanel"
+  >
+
+    <button id="closeAccessibility">
+      ×
+    </button>
+
+    <h3>
+      Acessibilidade
+    </h3>
+
+    <button id="increaseFont">
+      A+ Aumentar texto
+    </button>
+
+    <button id="decreaseFont">
+      A− Diminuir texto
+    </button>
+
+    <button id="contrast">
+      ◐ Alto contraste
+    </button>
+
+    <button id="readPage">
+      🔊 Ler página em áudio
+    </button>
+
+    <button id="stopReading">
+      ⏹ Parar leitura
+    </button>
+
+  </aside>
+
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
