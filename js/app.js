@@ -153,87 +153,122 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2200);
   }
 
-  /* =========================
-     CARD DO PRODUTO
-  ========================= */
+/* =========================
+   CARD DO PRODUTO
+========================= */
 
-  function card(product) {
+function card(product) {
 
-    const wished = isWish(product.id);
+  const wished =
+    isWish(product.id);
 
-    return `
-      <article class="product-card">
+  const productImages =
+    product.images && product.images.length
+      ? product.images
+      : [product.image];
 
-        <div class="product-image">
+  const firstImage =
+    productImages[0] || "";
 
-          <a href="produto.html?id=${product.id}">
-            <img
-              src="${product.image}"
-              alt="${product.name}"
-              loading="lazy"
-              onerror="this.style.display='none'"
-            >
-          </a>
+  return `
+    <article class="product-card">
 
-          <button
-            type="button"
-            class="wish-btn ${wished ? "selected" : ""}"
-            data-wish="${product.id}"
-            aria-label="${
-              wished
-                ? "Remover da lista de desejos"
-                : "Adicionar à lista de desejos"
-            }"
+      <div class="product-image">
+
+        <a href="produto.html?id=${product.id}">
+
+          <img
+            src="${firstImage}"
+            alt="${product.name}"
+            loading="lazy"
+            data-product-images='${JSON.stringify(productImages).replace(/'/g, "&#39;")}'
+            data-image-index="0"
+            onerror="
+              const images = JSON.parse(this.dataset.productImages);
+              let index = Number(this.dataset.imageIndex || 0) + 1;
+
+              if (index < images.length) {
+                this.dataset.imageIndex = index;
+                this.src = images[index];
+              } else {
+                this.onerror = null;
+              }
+            "
           >
-            ${wished ? "♥" : "♡"}
-          </button>
 
-          ${
-            product.bestseller
-              ? `<span class="badge">MAIS VENDIDO</span>`
-              : ""
-          }
+        </a>
 
-          ${
-            product.promo
-              ? `<span class="badge" style="top:43px;background:#8d55ad;">
-                   OFERTA
-                 </span>`
-              : ""
-          }
+        <button
+          type="button"
+          class="wish-btn ${wished ? "selected" : ""}"
+          data-wish="${product.id}"
+          aria-label="${
+            wished
+              ? "Remover da lista de desejos"
+              : "Adicionar à lista de desejos"
+          }"
+        >
+          ${wished ? "♥" : "♡"}
+        </button>
 
-        </div>
+        ${
+          product.bestseller
+            ? `
+              <span class="badge">
+                MAIS VENDIDO
+              </span>
+            `
+            : ""
+        }
 
-        <div class="product-info">
+        ${
+          product.promo
+            ? `
+              <span
+                class="badge"
+                style="
+                  top:43px;
+                  background:#8d55ad;
+                "
+              >
+                OFERTA
+              </span>
+            `
+            : ""
+        }
 
-          <a
-            href="produto.html?id=${product.id}"
-            class="product-name"
-          >
-            ${product.name}
-          </a>
+      </div>
 
-          <span class="product-category">
-            ${product.category}
-          </span>
+      <div class="product-info">
 
-          <strong>
-            ${money(product.price)}
-          </strong>
+        <a
+          href="produto.html?id=${product.id}"
+          class="product-name"
+        >
+          ${product.name}
+        </a>
 
-          <button
-            type="button"
-            class="quick-add"
-            data-add="${product.id}"
-          >
-            Adicionar ao carrinho
-          </button>
+        <span class="product-category">
+          ${product.category}
+        </span>
 
-        </div>
+        <strong>
+          ${money(product.price)}
+        </strong>
 
-      </article>
-    `;
-  }
+        <button
+          type="button"
+          class="quick-add"
+          data-add="${product.id}"
+        >
+          Adicionar ao carrinho
+        </button>
+
+      </div>
+
+    </article>
+  `;
+}
 
   /* =========================
      EVENTOS DOS CARDS
@@ -331,389 +366,317 @@ document.addEventListener("DOMContentLoaded", () => {
      PRODUTOS / FILTROS
   ========================= */
 
-  function renderProducts() {
+function renderProducts(){
+  const grid = document.getElementById("productGrid");
+  if(!grid) return;
 
-    const grid =
-      document.getElementById("productGrid");
+  const params = new URLSearchParams(location.search);
 
-    if (!grid) return;
+  const initialCat = params.get("categoria") || "Todos";
+  const initialSearch = params.get("busca") || "";
 
-    const params =
-      new URLSearchParams(location.search);
+  const productSearch = document.getElementById("productSearch");
 
-    const initialCategory =
-      params.get("categoria") || "Todos";
+  if(productSearch){
+    productSearch.value = initialSearch;
+  }
 
-    const initialSearch =
-      params.get("busca") || "";
+  // Normaliza os textos para evitar problemas com
+  // acentos, letras maiúsculas/minúsculas e espaços.
+  const normalize = value =>
+    String(value || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim()
+      .toLowerCase();
 
-    const initialPromotion =
+  const normalizedInitialCat = normalize(initialCat);
+
+  // Seleciona a categoria recebida pela URL.
+  document
+    .querySelectorAll('input[name="category"]')
+    .forEach(radio => {
+      radio.checked =
+        normalize(radio.value) === normalizedInitialCat;
+    });
+
+  // Caso a categoria da URL não exista,
+  // seleciona "Todos".
+  const categoryRadios = [
+    ...document.querySelectorAll('input[name="category"]')
+  ];
+
+  const categorySelected = categoryRadios.some(
+    radio => radio.checked
+  );
+
+  if(!categorySelected){
+    const todos = document.querySelector(
+      'input[name="category"][value="Todos"]'
+    );
+
+    if(todos){
+      todos.checked = true;
+    }
+  }
+
+  const apply = () => {
+
+    let arr = [...PRODUCTS];
+
+    const q = (
+      document.getElementById("productSearch")?.value || ""
+    ).trim();
+
+    const selectedCategory = document.querySelector(
+      'input[name="category"]:checked'
+    );
+
+    const cat = selectedCategory
+      ? selectedCategory.value
+      : "Todos";
+
+    const normalizedCat = normalize(cat);
+
+    const sizes = [
+      ...document.querySelectorAll(
+        'input[name="size"]:checked'
+      )
+    ].map(x => x.value);
+
+    const colors = [
+      ...document.querySelectorAll(
+        'input[name="color"]:checked'
+      )
+    ].map(x => normalize(x.value));
+
+    const minValue = parseFloat(
+      document.getElementById("minPrice")?.value
+    );
+
+    const maxValue = parseFloat(
+      document.getElementById("maxPrice")?.value
+    );
+
+    const min = Number.isFinite(minValue)
+      ? minValue
+      : 0;
+
+    const max = Number.isFinite(maxValue)
+      ? maxValue
+      : Infinity;
+
+    const occasion =
+      document.getElementById("occasion")?.value ||
+      "Todas";
+
+    const normalizedOccasion = normalize(occasion);
+
+    const promo =
       params.get("promocao") === "true";
 
-    const productSearch =
-      document.getElementById("productSearch");
+    arr = arr.filter(p => {
 
-    if (productSearch) {
-      productSearch.value = initialSearch;
+      const productCategory =
+        normalize(p.category);
+
+      const productColor =
+        normalize(p.color);
+
+      const productOccasion =
+        normalize(p.occasion);
+
+      const searchable = normalize(
+        `${p.name} ${p.category} ${p.occasion} ${p.color} ${p.tags || ""}`
+      );
+
+      const matchesCategory =
+        normalizedCat === "todos" ||
+        productCategory === normalizedCat;
+
+      const matchesSearch =
+        !q ||
+        searchable.includes(normalize(q));
+
+      const matchesSize =
+        !sizes.length ||
+        sizes.some(size =>
+          Array.isArray(p.sizes) &&
+          p.sizes.includes(size)
+        );
+
+      const matchesColor =
+        !colors.length ||
+        colors.includes(productColor);
+
+      const matchesPrice =
+        Number(p.price) >= min &&
+        Number(p.price) <= max;
+
+      const matchesOccasion =
+        normalizedOccasion === "todas" ||
+        productOccasion === normalizedOccasion;
+
+      const matchesPromotion =
+        !promo ||
+        Number(p.price) <= 99.90;
+
+      return (
+        matchesCategory &&
+        matchesSearch &&
+        matchesSize &&
+        matchesColor &&
+        matchesPrice &&
+        matchesOccasion &&
+        matchesPromotion
+      );
+    });
+
+    // Ordenação
+    const sort =
+      document.getElementById("sortProducts")?.value ||
+      "default";
+
+    if(sort === "priceAsc"){
+      arr.sort((a,b) => a.price - b.price);
     }
 
+    if(sort === "priceDesc"){
+      arr.sort((a,b) => b.price - a.price);
+    }
+
+    if(sort === "name"){
+      arr.sort(
+        (a,b) =>
+          a.name.localeCompare(b.name, "pt-BR")
+      );
+    }
+
+    // Mostra os produtos encontrados.
+    grid.innerHTML = arr
+      .map(card)
+      .join("");
+
+    // Atualiza o contador.
+    const count =
+      document.getElementById("resultCount");
+
+    if(count){
+      count.textContent =
+        `${arr.length} ${
+          arr.length === 1
+            ? "produto encontrado"
+            : "produtos encontrados"
+        }`;
+    }
+
+    // Só mostra "Nenhum produto encontrado"
+    // quando realmente não houver nenhum.
+    const empty =
+      document.getElementById("emptyState");
+
+    if(empty){
+      empty.hidden = arr.length > 0;
+    }
+
+    bindCards();
+  };
+
+
+  // Filtros
+  document
+    .querySelectorAll(".filters input, .filters select")
+    .forEach(el => {
+      el.addEventListener("change", apply);
+    });
+
+  ["minPrice", "maxPrice"].forEach(id => {
     document
-      .querySelectorAll('input[name="category"]')
-      .forEach(radio => {
+      .getElementById(id)
+      ?.addEventListener("input", apply);
+  });
 
-        radio.checked =
-          radio.value === initialCategory;
+  document
+    .getElementById("productSearch")
+    ?.addEventListener("input", apply);
 
-      });
+  document
+    .getElementById("productSearchBtn")
+    ?.addEventListener("click", apply);
 
-    if (
-      initialCategory !== "Todos" &&
-      !document.querySelector(
-        `input[name="category"][value="${CSS.escape(initialCategory)}"]`
-      )
-    ) {
+  document
+    .getElementById("sortProducts")
+    ?.addEventListener("change", apply);
 
-      const all =
-        document.querySelector(
-          'input[name="category"][value="Todos"]'
-        );
 
-      if (all) {
-        all.checked = true;
-      }
-    }
+  // Limpar filtros
+  document
+    .getElementById("clearFilters")
+    ?.addEventListener("click", () => {
 
-    function applyFilters() {
+      document
+        .querySelectorAll('input[name="category"]')
+        .forEach(radio => {
+          radio.checked =
+            radio.value === "Todos";
+        });
 
-      let products = [...PRODUCTS];
-
-      /* BUSCA */
-
-      const query =
-        (
-          document.getElementById("productSearch")
-            ?.value || ""
+      document
+        .querySelectorAll(
+          '.filters input[type="checkbox"]'
         )
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .trim();
-
-      /* CATEGORIA */
-
-      const category =
-        document.querySelector(
-          'input[name="category"]:checked'
-        )?.value || "Todos";
-
-      /* TAMANHO */
-
-      const sizes =
-        [
-          ...document.querySelectorAll(
-            'input[name="size"]:checked'
-          )
-        ].map(input => input.value);
-
-      /* COR */
-
-      const colors =
-        [
-          ...document.querySelectorAll(
-            'input[name="color"]:checked'
-          )
-        ].map(input => input.value);
-
-      /* PREÇO */
-
-      const minInput =
-        parseFloat(
-          document.getElementById("minPrice")?.value
-        );
-
-      const maxInput =
-        parseFloat(
-          document.getElementById("maxPrice")?.value
-        );
+        .forEach(input => {
+          input.checked = false;
+        });
 
       const min =
-        Number.isFinite(minInput)
-          ? minInput
-          : 0;
+        document.getElementById("minPrice");
 
       const max =
-        Number.isFinite(maxInput)
-          ? maxInput
-          : Infinity;
-
-      /* OCASIÃO */
+        document.getElementById("maxPrice");
 
       const occasion =
-        document.getElementById("occasion")
-          ?.value || "Todas";
+        document.getElementById("occasion");
 
-      /* PROMOÇÃO */
+      const search =
+        document.getElementById("productSearch");
 
-      const promotion =
-        initialPromotion;
+      if(min) min.value = "";
+      if(max) max.value = "";
+      if(occasion) occasion.value = "Todas";
+      if(search) search.value = "";
 
-      products = products.filter(product => {
-
-        const searchable =
-          `
-          ${product.name}
-          ${product.category}
-          ${product.color}
-          ${product.occasion}
-          ${product.tags}
-          `
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "");
-
-        const matchesSearch =
-          !query ||
-          searchable.includes(query);
-
-        const matchesCategory =
-          category === "Todos" ||
-          product.category === category;
-
-        const matchesSize =
-          sizes.length === 0 ||
-          sizes.some(size =>
-            product.sizes.includes(size)
-          );
-
-        const matchesColor =
-          colors.length === 0 ||
-          colors.includes(product.color);
-
-        const matchesPrice =
-          product.price >= min &&
-          product.price <= max;
-
-        const matchesOccasion =
-          occasion === "Todas" ||
-          product.occasion === occasion;
-
-        const matchesPromotion =
-          !promotion ||
-          product.promo === true;
-
-        return (
-          matchesSearch &&
-          matchesCategory &&
-          matchesSize &&
-          matchesColor &&
-          matchesPrice &&
-          matchesOccasion &&
-          matchesPromotion
-        );
-      });
-
-      /* ORDENAÇÃO */
-
-      const sort =
-        document.getElementById("sortProducts")
-          ?.value || "default";
-
-      if (sort === "priceAsc") {
-
-        products.sort(
-          (a, b) => a.price - b.price
-        );
-
-      }
-
-      if (sort === "priceDesc") {
-
-        products.sort(
-          (a, b) => b.price - a.price
-        );
-
-      }
-
-      if (sort === "name") {
-
-        products.sort(
-          (a, b) =>
-            a.name.localeCompare(
-              b.name,
-              "pt-BR"
-            )
-        );
-
-      }
-
-      /* RENDER */
-
-      grid.innerHTML =
-        products.map(card).join("");
-
-      /* CONTADOR */
-
-      const count =
-        document.getElementById("resultCount");
-
-      if (count) {
-
-        count.textContent =
-          `${products.length} ${
-            products.length === 1
-              ? "produto encontrado"
-              : "produtos encontrados"
-          }`;
-
-      }
-
-      /* VAZIO */
-
-      const empty =
-        document.getElementById("emptyState");
-
-      if (empty) {
-        empty.hidden =
-          products.length > 0;
-      }
-
-      bindCards();
-    }
-
-    /* EVENTOS DOS FILTROS */
-
-    document
-      .querySelectorAll(
-        ".filters input, .filters select"
-      )
-      .forEach(element => {
-
-        element.addEventListener(
-          "change",
-          applyFilters
-        );
-
-      });
-
-    ["minPrice", "maxPrice"]
-      .forEach(id => {
-
-        document
-          .getElementById(id)
-          ?.addEventListener(
-            "input",
-            applyFilters
-          );
-
-      });
-
-    document
-      .getElementById("productSearch")
-      ?.addEventListener(
-        "input",
-        applyFilters
+      history.replaceState(
+        null,
+        "",
+        "produtos.html"
       );
 
-    document
-      .getElementById("productSearchBtn")
-      ?.addEventListener(
-        "click",
-        applyFilters
-      );
+      apply();
+    });
 
-    document
-      .getElementById("sortProducts")
-      ?.addEventListener(
-        "change",
-        applyFilters
-      );
 
-    /* LIMPAR FILTROS */
+  // Filtros no celular
+  document
+    .getElementById("openFilters")
+    ?.addEventListener("click", () => {
+      document
+        .querySelector(".filters")
+        ?.classList.add("open");
+    });
 
-    document
-      .getElementById("clearFilters")
-      ?.addEventListener(
-        "click",
-        () => {
+  document
+    .getElementById("closeFilters")
+    ?.addEventListener("click", () => {
+      document
+        .querySelector(".filters")
+        ?.classList.remove("open");
+    });
 
-          document
-            .querySelectorAll(
-              'input[name="category"]'
-            )
-            .forEach(radio => {
 
-              radio.checked =
-                radio.value === "Todos";
-
-            });
-
-          document
-            .querySelectorAll(
-              '.filters input[type="checkbox"]'
-            )
-            .forEach(input => {
-
-              input.checked = false;
-
-            });
-
-          const min =
-            document.getElementById("minPrice");
-
-          const max =
-            document.getElementById("maxPrice");
-
-          const occasion =
-            document.getElementById("occasion");
-
-          const search =
-            document.getElementById("productSearch");
-
-          if (min) min.value = "";
-          if (max) max.value = "";
-          if (occasion) occasion.value = "Todas";
-          if (search) search.value = "";
-
-          history.replaceState(
-            null,
-            "",
-            "produtos.html"
-          );
-
-          applyFilters();
-        }
-      );
-
-    /* FILTRO MOBILE */
-
-    document
-      .getElementById("openFilters")
-      ?.addEventListener(
-        "click",
-        () => {
-
-          document
-            .querySelector(".filters")
-            ?.classList.add("open");
-
-        }
-      );
-
-    document
-      .getElementById("closeFilters")
-      ?.addEventListener(
-        "click",
-        () => {
-
-          document
-            .querySelector(".filters")
-            ?.classList.remove("open");
-
-        }
-      );
-
-    applyFilters();
-  }
+  // Primeira exibição dos produtos
+  apply();
+}
 
   /* =========================
      PRODUTO INDIVIDUAL
@@ -1123,6 +1086,49 @@ document.addEventListener("DOMContentLoaded", () => {
         };
       });
 
+
+          /* TABELA DE MEDIDAS */
+
+    document
+      .querySelector(".measure-link")
+      ?.addEventListener("click", event => {
+        event.preventDefault();
+
+        const measurements =
+          document.getElementById("measurements");
+
+        if (!measurements) return;
+
+        /* Ativa a aba da tabela */
+        document
+          .querySelectorAll(".tab")
+          .forEach(tab =>
+            tab.classList.remove("active")
+          );
+
+        document
+          .querySelectorAll(".tab-content")
+          .forEach(content =>
+            content.hidden = true
+          );
+
+        const measurementsTab =
+          document.querySelector(
+            '.tab[data-tab="measurements"]'
+          );
+
+        measurementsTab?.classList.add("active");
+
+        /* Mostra a tabela */
+        measurements.hidden = false;
+
+        /* Abaixa a tela suavemente até a tabela */
+        measurements.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      });
+      
     /* ADICIONAR AO CARRINHO */
 
     document
@@ -2508,59 +2514,76 @@ function renderCheckout() {
     return false;
   }
 
-  function setupAccountStatus() {
+function setupAccountStatus() {
 
-    const account = getAccount();
-    const logged = isLogged();
+  const account = getAccount();
+  const logged = isLogged();
 
-    document
-      .querySelectorAll('a[href="login.html"], a[data-account-link="true"]')
-      .forEach(link => {
+  /*
+   * Seleciona somente o link da conta no cabeçalho.
+   * Não altera links de login que estejam no conteúdo
+   * das páginas, como o "Entrar" do cadastro.
+   */
+  document
+    .querySelectorAll(
+      'header a[href="login.html"], header a[data-account-link="true"]'
+    )
+    .forEach(link => {
 
-        link.dataset.accountLink = "true";
+      link.dataset.accountLink = "true";
 
-        /* ESTADO LOGADO */
-        if (logged && account) {
+      /* ESTADO LOGADO */
+      if (logged && account) {
 
-          link.href = "#";
-          link.title = `Conta conectada: ${account.name || "Minha conta"} — clique para sair`;
-          link.setAttribute(
-            "aria-label",
-            `Conta conectada: ${account.name || "Minha conta"}. Clique para sair.`
+        link.href = "#";
+
+        link.title =
+          `Conta conectada: ${account.name || "Minha conta"} — clique para sair`;
+
+        link.setAttribute(
+          "aria-label",
+          `Conta conectada: ${account.name || "Minha conta"}. Clique para sair.`
+        );
+
+        /* Mantém somente o ícone no cabeçalho */
+        link.textContent = "♙";
+
+        link.onclick = event => {
+
+          event.preventDefault();
+
+          const logout = confirm(
+            `Conta conectada como ${account.name || "usuário"}.\n\nDeseja sair da conta?`
           );
 
-          /* Mantém somente o ícone no cabeçalho para não quebrar o layout. */
-          link.textContent = "♙";
+          if (!logout) return;
 
-          link.onclick = event => {
+          localStorage.removeItem("backstage_logged");
 
-            event.preventDefault();
+          /* Atualiza o botão sem recarregar a página */
+          setupAccountStatus();
 
-            const logout = confirm(
-              `Conta conectada como ${account.name || "usuário"}.\n\nDeseja sair da conta?`
-            );
+          alert("Você saiu da sua conta. 💜");
+        };
 
-            if (!logout) return;
+      } else {
 
-            localStorage.removeItem("backstage_logged");
+        /* ESTADO DESLOGADO */
 
-            /* Atualiza imediatamente o botão sem recarregar a página. */
-            setupAccountStatus();
+        link.href = "login.html";
+        link.title = "Minha conta";
 
-            alert("Você saiu da sua conta. 💜");
-          };
+        link.setAttribute(
+          "aria-label",
+          "Minha conta"
+        );
 
-        } else {
+        link.textContent = "♙";
 
-          /* ESTADO DESLOGADO */
-          link.href = "login.html";
-          link.title = "Minha conta";
-          link.setAttribute("aria-label", "Minha conta");
-          link.textContent = "♙";
-          link.onclick = null;
-        }
-      });
-  }
+        link.onclick = null;
+      }
+    });
+}
 
   function setupPurchaseProtection() {
     document
@@ -3232,7 +3255,7 @@ function setupAccessibility() {
   ========================= */
 
 function footer() {
-  const footer = document.querySelector(".footer-main");
+  const footer = document.querySelector("footer");
 
   if (!footer || footer.dataset.initialized) {
     return;
@@ -3240,80 +3263,156 @@ function footer() {
 
   footer.dataset.initialized = "true";
 
-  const socials = footer.querySelector(".socials");
+  footer.innerHTML = `
+    <div class="footer-main">
 
-  if (!socials) {
-    return;
-  }
+      <div>
 
-  socials.innerHTML = `
-    <a
-      href="https://www.instagram.com/backstagemodafeminina"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Instagram"
-      title="Instagram"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="18"
-        height="18"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.8"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-      >
-        <rect x="3" y="3" width="18" height="18" rx="5"></rect>
-        <circle cx="12" cy="12" r="4"></circle>
-        <circle cx="17.5" cy="6.5" r="1"></circle>
-      </svg>
-    </a>
+        <a
+          class="brand footer-brand"
+          href="index.html"
+        >
+          <span>Backstage</span>
+          <small>MODA FEMININA</small>
+        </a>
 
-    <a
-      href="https://wa.me/5500000000000"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="WhatsApp"
-      title="WhatsApp"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="18"
-        height="18"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.8"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M20.5 11.1a8.5 8.5 0 0 1-12.6 7.4L4 20l1.5-3.7A8.5 8.5 0 1 1 20.5 11.1Z"></path>
-        <path d="M8.5 8.5c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.7 1.6c.1.2.1.4-.1.6l-.6.7c.7 1.2 1.7 2.1 2.9 2.7l.7-.7c.2-.2.4-.2.7-.1l1.5.7c.3.1.4.3.3.6-.2.8-.8 1.4-1.5 1.6-1.1.3-3.2-.6-4.8-2.1-1.5-1.4-2.5-3.4-2.4-4.6.1-.5.4-.8.9-1Z"></path>
-      </svg>
-    </a>
+        <p>
+          Moda para você ser quem quiser.
+        </p>
 
-    <a
-      href="https://www.tiktok.com/@backstagemodafeminina"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="TikTok"
-      title="TikTok"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="18"
-        height="18"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        aria-hidden="true"
-      >
-        <path d="M15.5 3c.3 1.8 1.3 3.2 3.1 4v3.1c-1.3-.1-2.5-.5-3.6-1.2v6.2c0 3.4-2.4 5.9-5.8 5.9-3.1 0-5.4-2.2-5.4-5.2 0-3.1 2.5-5.4 5.7-5.4.4 0 .8 0 1.1.1v3.2c-.3-.1-.7-.2-1.1-.2-1.4 0-2.5.9-2.5 2.3 0 1.3 1 2.1 2.2 2.1 1.4 0 2.4-.9 2.4-2.7V3h3.9Z"></path>
-      </svg>
-    </a>
+      </div>
+
+
+
+      <div>
+
+            </div>
+
+
+
+      <div>
+
+            </div>
+
+
+
+      <div>
+
+        <h3>
+          Siga a gente
+        </h3>
+
+        <p>
+          @backstagemodafeminina
+        </p>
+
+        <div class="socials">
+
+          <a
+            href="https://www.instagram.com/backstagemodafeminina"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+            title="Instagram"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect
+                x="3"
+                y="3"
+                width="18"
+                height="18"
+                rx="5"
+              ></rect>
+
+              <circle
+                cx="12"
+                cy="12"
+                r="4"
+              ></circle>
+
+              <circle
+                cx="17.5"
+                cy="6.5"
+                r="1"
+                fill="currentColor"
+                stroke="none"
+              ></circle>
+            </svg>
+          </a>
+
+
+          <a
+            href="https://wa.me/5500000000000"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp"
+            title="WhatsApp"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path
+                d="M20.5 11.1a8.5 8.5 0 0 1-12.6 7.4L4 20l1.5-3.7A8.5 8.5 0 1 1 20.5 11.1Z"
+              ></path>
+
+              <path
+                d="M8.5 8.5c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.7 1.6c.1.2.1.4-.1.6l-.6.7c.7 1.2 1.7 2.1 2.9 2.7l.7-.7c.2-.2.4-.2.7-.1l1.5.7c.3.1.4.3.3.6-.2.8-.8 1.4-1.5 1.6-1.1.3-3.2-.6-4.8-2.1-1.5-1.4-2.5-3.4-2.4-4.6.1-.5.4-.8.9-1Z"
+              ></path>
+            </svg>
+          </a>
+
+
+          <a
+            href="https://www.tiktok.com/@backstagemodafeminina"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="TikTok"
+            title="TikTok"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M15.5 3c.3 1.8 1.3 3.2 3.1 4v3.1c-1.3-.1-2.5-.5-3.6-1.2v6.2c0 3.4-2.4 5.9-5.8 5.9-3.1 0-5.4-2.2-5.4-5.2 0-3.1 2.5-5.4 5.7-5.4.4 0 .8 0 1.1.1v3.2c-.3-.1-.7-.2-1.1-.2-1.4 0-2.5.9-2.5 2.3 0 1.3 1 2.1 2.2 2.1 1.4 0 2.4-.9 2.4-2.7V3h3.9Z"
+              ></path>
+            </svg>
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+      © 2026 BackStage — Todos os direitos reservados.
+    </div>
   `;
 }
 

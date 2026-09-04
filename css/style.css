@@ -1329,6 +1329,10 @@ html.font-size-minus-2 body {
   color: #777;
 }
 
+.empty-state[hidden] {
+  display: none !important;
+}
+
 .empty-state span {
   font-size: 50px;
 
@@ -2303,58 +2307,245 @@ th {
 
 
 /* =========================================================
-   CONTRASTE
+   CONTRASTE — MODO ESCURO
 ========================================================= */
 
 .high-contrast {
-  background: #000 !important;
+  background: #18151b !important;
+  color: #f5f2f7 !important;
+}
+
+/* Topo e cabeçalho */
+.high-contrast .topbar,
+.high-contrast .header {
+  background: #111015 !important;
   color: #fff !important;
 }
 
-.high-contrast .product-image {
-  background: #222;
+.high-contrast .footer-main {
+  background: #111015 !important;
+  color: #fff !important;
 }
 
-.high-contrast .btn-outline,
-.high-contrast .search-box,
+.high-contrast .footer-bottom {
+  background: #0b0a0d !important;
+  color: #e8e4eb !important;
+}
+
+/* Títulos e textos */
+.high-contrast h1,
+.high-contrast h2,
+.high-contrast h3,
+.high-contrast h4,
+.high-contrast p,
+.high-contrast label,
+.high-contrast span {
+  color: #f5f2f7 !important;
+}
+
+.high-contrast .muted,
+.high-contrast .product-category,
+.high-contrast .result-count,
+.high-contrast .installment,
+.high-contrast .rating span {
+  color: #c9c3cf !important;
+}
+
+/* Links */
+.high-contrast a,
+.high-contrast .measure-link {
+  color: #d9a7ff !important;
+}
+
+/* Seções */
+.high-contrast .section,
+.high-contrast .page-title,
+.high-contrast .catalog-layout,
+.high-contrast .product-detail-page,
+.high-contrast .detail-extra,
+.high-contrast .cart-page,
+.high-contrast .wishlist-page {
+  background: #18151b !important;
+  color: #f5f2f7 !important;
+}
+
+/* Cards */
+.high-contrast .product-card,
+.high-contrast .checkout-card,
+.high-contrast .summary-card,
+.high-contrast .order-summary,
+.high-contrast .auth-card,
+.high-contrast .shipping-box {
+  background: #211d25 !important;
+  color: #f5f2f7 !important;
+  border-color: #5e5665 !important;
+}
+
+/* Campos */
+.high-contrast input,
+.high-contrast select,
+.high-contrast textarea {
+  background: #121015 !important;
+  color: #fff !important;
+  border-color: #817789 !important;
+}
+
+.high-contrast input::placeholder {
+  color: #aaa2af !important;
+}
+
+/* Botão escuro */
+.high-contrast .btn-dark {
+  background: #f0e8f5 !important;
+  color: #18151b !important;
+  border-color: #f0e8f5 !important;
+}
+
+/* Botão contornado */
+.high-contrast .btn-outline {
+  background: #211d25 !important;
+  color: #e1b8ff !important;
+  border-color: #d9a7ff !important;
+}
+
+/* Botões de tamanho */
+.high-contrast .size-option {
+  background: #211d25 !important;
+  color: #fff !important;
+  border-color: #817789 !important;
+}
+
+.high-contrast .size-option.selected {
+  background: #d9a7ff !important;
+  color: #18151b !important;
+  border-color: #d9a7ff !important;
+}
+
+/* Abas */
+.high-contrast .detail-tabs {
+  border-color: #5e5665 !important;
+}
+
+.high-contrast .tab {
+  color: #ddd6e2 !important;
+}
+
+.high-contrast .tab.active {
+  color: #e1b8ff !important;
+}
+
+/* Tabela de medidas */
+.high-contrast table,
+.high-contrast th,
+.high-contrast td {
+  border-color: #655d6b !important;
+}
+
+.high-contrast th {
+  background: #302936 !important;
+  color: #fff !important;
+}
+
+.high-contrast td {
+  background: #211d25 !important;
+  color: #f5f2f7 !important;
+}
+
+/* Filtros */
+.high-contrast .filters,
+.high-contrast .filter-group {
+  background: #18151b !important;
+  color: #f5f2f7 !important;
+  border-color: #5e5665 !important;
+}
+
+.high-contrast .chips span {
+  background: #211d25 !important;
+  color: #fff !important;
+  border-color: #817789 !important;
+}
+
+.high-contrast .chips input:checked + span {
+  background: #d9a7ff !important;
+  color: #18151b !important;
+  border-color: #d9a7ff !important;
+}
+
+/* Painel de acessibilidade */
 .high-contrast .accessibility-panel {
-  background: #111;
-  color: #fff;
-  border-color: #fff;
+  background: #211d25 !important;
+  color: #fff !important;
+  border-color: #817789 !important;
 }
 
 .high-contrast .accessibility-panel > button {
-  background: #111;
-  color: #fff;
-  border-color: #fff;
+  background: #18151b !important;
+  color: #fff !important;
+  border-color: #655d6b !important;
 }
 
 .high-contrast .accessibility-panel > button:hover {
-  background: #222;
+  background: #302936 !important;
+  border-color: #d9a7ff !important;
 }
 
 .high-contrast .accessibility-panel > button:first-child {
-  background: transparent;
-  color: #fff;
+  background: transparent !important;
+  color: #fff !important;
 }
 
 .high-contrast .accessibility-status {
-  background: #222;
-  color: #fff;
-  border: 1px solid #fff;
+  background: #302936 !important;
+  color: #e5ddeb !important;
+  border-color: #655d6b !important;
 }
 
+/* Botão de acessibilidade */
 .high-contrast .accessibility-trigger {
-  background: #000;
-  color: #fff;
-  border: 2px solid #fff;
+  background: #d9a7ff !important;
+  color: #18151b !important;
+  border: 2px solid #d9a7ff !important;
 }
 
-.high-contrast .accessibility-trigger:focus-visible,
-.high-contrast .accessibility-panel > button:focus-visible {
-  outline-color: #fff;
+/* Carrinho */
+.high-contrast .cart-head,
+.high-contrast .cart-item {
+  border-color: #5e5665 !important;
 }
 
+.high-contrast .qty button {
+  background: #211d25 !important;
+  color: #fff !important;
+  border-color: #817789 !important;
+}
+
+/* Mensagens */
+.high-contrast .toast {
+  background: #f0e8f5 !important;
+  color: #18151b !important;
+}
+
+/* Estado vazio */
+.high-contrast .empty-state {
+  color: #d5ced9 !important;
+}
+
+.high-contrast .empty-state h2 {
+  color: #f5f2f7 !important;
+}
+
+.high-contrast .empty-state span {
+  color: #d9a7ff !important;
+}
+
+/* Foco para acessibilidade */
+.high-contrast button:focus-visible,
+.high-contrast a:focus-visible,
+.high-contrast input:focus-visible,
+.high-contrast select:focus-visible {
+  outline: 3px solid #e1b8ff !important;
+  outline-offset: 2px;
+}
 
 /* =========================================================
    TABLET
